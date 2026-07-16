@@ -1,0 +1,16 @@
+{
+    "name": "lombokclarion/routing",
+    "description": "Explicit route table, middleware pipeline, Kernel, and runtime adapters (FPM/Function/Swoole) for LombokClarion.",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.3",
+        "lombokclarion/http": "*",
+        "lombokclarion/container": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "LombokClarion\\Routing\\": "src/"
+        }
+    }
+}
