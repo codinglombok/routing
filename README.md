@@ -13,7 +13,7 @@ composer require lombokclarion/routing
 
 ## Namespace
 
-```
+```php
 LombokClarion\Routing
 ```
 
