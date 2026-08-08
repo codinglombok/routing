@@ -14,40 +14,64 @@ final class Router
     /** @var list<Route> */
     private array $routes = [];
 
-    /** @var list<class-string> */
+    /** @var list<class-string|\LombokClarion\Http\Middleware> */
     private array $groupMiddleware = [];
 
     private string $groupPrefix = '';
 
     /**
      * @param array{0: class-string, 1: string} $handler
-     * @param list<class-string> $middleware
+     * @param list<class-string|\LombokClarion\Http\Middleware> $middleware
+     *        Class-strings are resolved from the container per request;
+     *        instances (value-carrying middleware such as
+     *        `RateLimit::perMinute(...)`) are used as-is — the same contract
+     *        Kernel::buildPipeline() enforces at runtime.
      */
     public function get(string $path, array $handler, array $middleware = [], ?string $name = null): void
     {
         $this->addRoute('GET', $path, $handler, $middleware, $name);
     }
 
+    /**
+     * @param array{0: class-string, 1: string} $handler
+     * @param list<class-string|\LombokClarion\Http\Middleware> $middleware
+     */
     public function post(string $path, array $handler, array $middleware = [], ?string $name = null): void
     {
         $this->addRoute('POST', $path, $handler, $middleware, $name);
     }
 
+    /**
+     * @param array{0: class-string, 1: string} $handler
+     * @param list<class-string|\LombokClarion\Http\Middleware> $middleware
+     */
     public function put(string $path, array $handler, array $middleware = [], ?string $name = null): void
     {
         $this->addRoute('PUT', $path, $handler, $middleware, $name);
     }
 
+    /**
+     * @param array{0: class-string, 1: string} $handler
+     * @param list<class-string|\LombokClarion\Http\Middleware> $middleware
+     */
     public function patch(string $path, array $handler, array $middleware = [], ?string $name = null): void
     {
         $this->addRoute('PATCH', $path, $handler, $middleware, $name);
     }
 
+    /**
+     * @param array{0: class-string, 1: string} $handler
+     * @param list<class-string|\LombokClarion\Http\Middleware> $middleware
+     */
     public function delete(string $path, array $handler, array $middleware = [], ?string $name = null): void
     {
         $this->addRoute('DELETE', $path, $handler, $middleware, $name);
     }
 
+    /**
+     * @param array{0: class-string, 1: string} $handler
+     * @param list<class-string|\LombokClarion\Http\Middleware> $middleware
+     */
     public function addRoute(string $method, string $path, array $handler, array $middleware = [], ?string $name = null): void
     {
         $this->routes[] = new Route(
@@ -60,7 +84,7 @@ final class Router
     }
 
     /**
-     * @param list<class-string> $middleware
+     * @param list<class-string|\LombokClarion\Http\Middleware> $middleware
      */
     public function group(string $prefix, array $middleware, callable $callback): void
     {
